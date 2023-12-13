@@ -6,7 +6,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <title>Usuários</title>
+    <title>Destinos</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/destinos" class="nav-link text-white">
+                            <a href="/destino" class="nav-link text-white">
                                 Destinos
                             </a>
                         </li>
@@ -48,77 +48,79 @@
 
 			<div class="p-4">
 				<button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary mb-2 botao1"> Novo
-					Usuário</button>
+					Destino</button>
 
 				<table class="table table-responsive table-hover">
 					<thead class="table-dark">
 						<tr>
 							<th scope="col">id</th>
 							<th scope="col">Nome</th>
-							<th scope="col">Email</th>
+							<th scope="col">Descrição</th>
+							<th scope="col">Preço</th>
 							<th scope="col">Ações</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="u : ${Usuarios}">
-							<td th:text="${u.id}"></td>
-							<td th:text="${u.nome}" class="name"></td>
-							<td th:text="${u.email}"></td>
+						<tr th:each="d : ${Destinos}">
+							<td th:text="${d.id}"></td>
+							<td th:text="${d.nome}" class="name"></td>
+							<td th:text="${d.descricao}"></td>
+							<td th:text="${d.preco}"></td>
 							<td>
 								<div class="d-flex">
-									<a th:href="@{'/usuarios'}" data-bs-toggle="modal"
-										th:data-bs-target="'#exampleModal' + ${u.id}" class="mx-1" title="Editar">
+									<a th:href="@{'/destinos'}" data-bs-toggle="modal"
+										th:data-bs-target="'#exampleModal' + ${d.id}" class="mx-1" title="Editar">
 										<i class="ri-file-edit-line"></i>
 									</a>
-									<a th:href="@{'/usuarios/' + ${u.id} + '/excluir'}" class="mx-1" title="Cancelar"
-										onclick="return confirm('Deseja excluir o usuário?')">
+									<a th:href="@{'/destinos/' + ${d.id} + '/excluir'}" class="mx-1" title="Cancelar"
+										onclick="return confirm('Deseja excluir esse destino?')">
 										<i class="ri-delete-bin-2-line"></i>
 									</a>
 									
 									<!-- Modal -->
-									<div class="modal fade" th:id="'exampleModal' + ${u.id}" tabindex="-1"
+									<div class="modal fade" th:id="'exampleModal' + ${d.id}" tabindex="-1"
 										aria-labelledby="exampleModalLabel" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
-													<h1 class="modal-title fs-5" id="exampleModalLabel">Atualizar Usuário</h1>
+													<h1 class="modal-title fs-5" id="exampleModalLabel">Atualizar Destino</h1>
 													<button type="button" class="btn-close" data-bs-dismiss="modal"
 														aria-label="Close"></button>
 												</div>
 												<div class="modal-body">
-													<form th:action="@{/usuarios/cadastrar}" method="post"
-														th:object="${usuario}">
+													<form th:action="@{/destinos/cadastrar}" method="post"
+														th:object="${destino}">
 														<h2 class="text-center">Atualizar</h2>
 														<input type="hidden" id="id" name="id" class="form-control"
-															th:value="${u.id}" />
+															th:value="${d.id}" />
 														<div class="form-group mb-3">
 															<label for="nome" class="form-label">
 																Nome
 															</label>
 															<input type="text" id="nome" name="nome"
-																class="form-control" th:value="${u.nome}" />
+																class="form-control" th:value="${d.nome}" />
 														</div>
 
 														<div class="form-group mb-3">
-															<label for="email" class="form-label">
-																Email
+															<label for="descricao" class="form-label">
+																Descrição
 															</label>
-															<input type="email" id="email" name="email"
-																class="form-control" th:value="${u.email}" />
+															<input type="descricao" id="descricao" name="descricao"
+																class="form-control" th:value="${d.descricao}" />
 														</div>
 														<div class="form-group mb-3">
-															<label for="senha" class="form-label">
-																Senha
+															<label for="preco" class="form-label">
+																Preço
 															</label>
-															<input type="password" id="senha" name="senha"
-																class="form-control" th:value="${u.senha}" />
+															<input type="number" id="preco" name="preco"
+																class="form-control" th:value="${d.preco}" />
 														</div>
 
 
 														<button type="submit" class="btn btn-primary">
 															Enviar
 														</button>
-														<a href="./usuarios" class="btn btn-danger"
+														<a href="./destinos" class="btn btn-danger"
 															style="margin-left: 10px">
 															Cancelar
 														</a>
@@ -143,11 +145,11 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastar novo Usuário</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastar novo Destino</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form th:action="@{/usuarios/cadastrar}" method="post" th:object="${usuario}">
+						<form th:action="@{/destinos/cadastrar}" method="post" th:object="${destino}">
 							<h2 class="text-center">Cadastar</h2>
 							<div class="form-group mb-3">
 								<label for="nome" class="form-label">
@@ -158,24 +160,24 @@
 							</div>
 
 							<div class="form-group mb-3">
-								<label for="email" class="form-label">
-									Email
+								<label for="descricao" class="form-label">
+									Descrição
 								</label>
-								<input type="email" th:id="email" th:name="email" class="form-control"
-									th:field="*{email}" />
+								<input type="descricao" th:id="descricao" th:name="descricao" class="form-control"
+									th:field="*{descricao}" />
 							</div>
 							<div class="form-group mb-3">
-								<label for="senha" class="form-label">
-									Senha
+								<label for="preco" class="form-label">
+									Preço
 								</label>
-								<input type="password" th:id="senha" th:name="senha" class="form-control"
-									th:field="*{senha}" />
+								<input type="number" th:id="preco" th:name="preco" class="form-control"
+									th:field="*{preco}" />
 							</div>
 
 							<button type="submit" class="btn btn-primary">
 								Enviar
 							</button>
-							<a href="./usuarios" class="btn btn-danger" style="margin-left: 10px">
+							<a href="./destinos" class="btn btn-danger" style="margin-left: 10px">
 								Cancelar
 							</a>
 						</form>
@@ -185,7 +187,7 @@
 			</div>
 		</div>
 		</main>
-		<br><br>
+          	<br><br>
 	         <footer>
             <div class="container">
               <div class="row">

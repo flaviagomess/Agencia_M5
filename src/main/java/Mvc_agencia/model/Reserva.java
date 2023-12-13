@@ -9,9 +9,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table (name = "Reserva")
 
@@ -30,12 +32,5 @@ public class Reserva {
 	@ManyToOne
 	@JoinColumn(name = "id_destino")
 	private Destinos destino;
-
-	@Override
-	public String toString() {
-		return "Reserva [id=" + id + ", data_reserva=" + data_reserva + ", total_reserva=" + total_reserva
-				+ ", usuario=" + usuario + ", destino=" + destino + "]";
-	}
-
 
 	}

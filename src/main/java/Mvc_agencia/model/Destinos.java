@@ -7,9 +7,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table (name = "Destinos")
 
@@ -21,10 +23,5 @@ public class Destinos {
 		private String nome;
 		private String descricao;
 		private Float preco;
-		
-		@Override
-		public String toString() {
-			return "Destinos [id=" + id + ", nome=" + nome+ ", descricao=" + descricao + ", preco=" + preco + "]";
-		}	
 		
 }

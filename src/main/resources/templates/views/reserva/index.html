@@ -6,7 +6,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <title>Usuários</title>
+    <title>Reserva</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/destinos" class="nav-link text-white">
+                            <a href="/destino" class="nav-link text-white">
                                 Destinos
                             </a>
                         </li>
@@ -43,85 +43,77 @@
                 </div>
             </div>
         </nav>
-
+		
 		<section class="container">
 
 			<div class="p-4">
-				<button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary mb-2 botao1"> Novo
-					Usuário</button>
+				<button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary mb-2 botao1"> Nova Reserva </button>
 
 				<table class="table table-responsive table-hover">
 					<thead class="table-dark">
 						<tr>
 							<th scope="col">id</th>
-							<th scope="col">Nome</th>
-							<th scope="col">Email</th>
+							<th scope="col">Data</th>
+							<th scope="col">Total</th>
+							<th scope="col">Destino</th>
+							<th scope="col">Descrição</th>
+							<th scope="col">Usuário</th>
 							<th scope="col">Ações</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="u : ${Usuarios}">
-							<td th:text="${u.id}"></td>
-							<td th:text="${u.nome}" class="name"></td>
-							<td th:text="${u.email}"></td>
+						<tr th:each="r : ${Reserva}">
+							<td th:text="${r.id}"></td>
+							<td  th:text="${r.data_reserva}"></td>
+							<td  th:text="${r.total_reserva}"></td>
+							<td  th:text="${r.destino.nome}"></td>
+							<td  th:text="${r.destino.descricao}"></td>
+							<td  th:text="${r.usuario.nome}"></td>
 							<td>
 								<div class="d-flex">
-									<a th:href="@{'/usuarios'}" data-bs-toggle="modal"
-										th:data-bs-target="'#exampleModal' + ${u.id}" class="mx-1" title="Editar">
+									<a th:href="@{'/reserva'}" data-bs-toggle="modal"
+										th:data-bs-target="'#exampleModal' + ${r.id}" class="mx-1" title="Editar">
 										<i class="ri-file-edit-line"></i>
 									</a>
-									<a th:href="@{'/usuarios/' + ${u.id} + '/excluir'}" class="mx-1" title="Cancelar"
-										onclick="return confirm('Deseja excluir o usuário?')">
+									<a th:href="@{'/reserva/' + ${r.id} + '/excluir'}" class="mx-1" title="Deletar"
+										onclick="return confirm('Deseja excluir a reserva?')">
 										<i class="ri-delete-bin-2-line"></i>
 									</a>
 									
 									<!-- Modal -->
-									<div class="modal fade" th:id="'exampleModal' + ${u.id}" tabindex="-1"
+									<div class="modal fade" th:id="'exampleModal' + ${r.id}" tabindex="-1"
 										aria-labelledby="exampleModalLabel" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
-													<h1 class="modal-title fs-5" id="exampleModalLabel">Atualizar Usuário</h1>
-													<button type="button" class="btn-close" data-bs-dismiss="modal"
-														aria-label="Close"></button>
+													<h1 class="modal-title fs-5" id="exampleModalLabel"> Atualizar </h1>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 												</div>
 												<div class="modal-body">
-													<form th:action="@{/usuarios/cadastrar}" method="post"
-														th:object="${usuario}">
-														<h2 class="text-center">Atualizar</h2>
-														<input type="hidden" id="id" name="id" class="form-control"
-															th:value="${u.id}" />
-														<div class="form-group mb-3">
-															<label for="nome" class="form-label">
-																Nome
-															</label>
-															<input type="text" id="nome" name="nome"
-																class="form-control" th:value="${u.nome}" />
-														</div>
+													<form th:action="@{/reserva/cadastrar}" method="post" th:object="${reserva}">
 
+														<input type="hidden" id="id" name="id" class="form-control" th:value="${r.id}" />
 														<div class="form-group mb-3">
-															<label for="email" class="form-label">
-																Email
-															</label>
-															<input type="email" id="email" name="email"
-																class="form-control" th:value="${u.email}" />
+															<label for="data_reserva" class="form-label"> Data </label> 
+															<input type="text" id="data_reserva" name="data_reserva"  class="form-control" th:value="${r.data_reserva}" />
 														</div>
 														<div class="form-group mb-3">
-															<label for="senha" class="form-label">
-																Senha
-															</label>
-															<input type="password" id="senha" name="senha"
-																class="form-control" th:value="${u.senha}" />
+															<label for="destino" class="form-label"> Destino </label> 
+															<select id="destino" name="destino.id"  class="form-control">
+																<option th:value="${r.destino.id}" th:text="${r.destino.nome}"></option>
+																<option th:each="d : ${listaDestinos}" th:value="${d.id}" th:text="${d.nome}"></option>
+															</select>
 														</div>
-
-
-														<button type="submit" class="btn btn-primary">
-															Enviar
-														</button>
-														<a href="./usuarios" class="btn btn-danger"
-															style="margin-left: 10px">
-															Cancelar
-														</a>
+														<div class="form-group mb-3">
+															<label for="usuario" class="form-label"> Usuário </label> 
+															<select id="usuario" name="usuario.id"class="form-control">
+																<option th:value="${r.usuario.id}" th:text="${r.usuario.nome}"></option>
+																<option th:each="u : ${listaUsuarios}" th:value="${u.id}" th:text="${u.nome}"></option>
+															</select>
+														</div>
+														
+														<button type="submit" class="btn btn-primary">Enviar</button>
+														<a href="./reserva" class="btn btn-danger" style="margin-left: 10px"> Cancelar </a>
 													</form>
 												</div>
 
@@ -143,49 +135,46 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastar novo Usuário</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel"> Cadastrar </h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form th:action="@{/usuarios/cadastrar}" method="post" th:object="${usuario}">
-							<h2 class="text-center">Cadastar</h2>
-							<div class="form-group mb-3">
-								<label for="nome" class="form-label">
-									Nome
-								</label>
-								<input type="text" th:id="nome" th:name="nome" class="form-control"
-									th:field="*{nome}" />
-							</div>
+						<form th:action="@{/reserva/cadastrar}" method="post" th:object="${reserva}">
 
 							<div class="form-group mb-3">
-								<label for="email" class="form-label">
-									Email
-								</label>
-								<input type="email" th:id="email" th:name="email" class="form-control"
-									th:field="*{email}" />
+								<label for="data" class="form-label"> Data </label> 
+								<input type="text" id="data" name="data_reserva"  class="form-control" value="" />
+							</div>
+							<!-- <div class="form-group mb-3">
+								<label for="total" class="form-label"> Total </label> 
+								<input type="text" id="total" name="total_reserva"  class="form-control" value="" />
+							</div> -->
+							<div class="form-group mb-3">
+								<label for="destino" class="form-label"> Destino </label> 
+								<select id="destino" name="destino.id"  class="form-control">
+									<option value="DEFAULT">Escolha um Destino</option> 
+									<option th:each="d : ${listaDestinos}" th:value="${d.id}" th:text="${d.nome}"></option>
+								</select>
 							</div>
 							<div class="form-group mb-3">
-								<label for="senha" class="form-label">
-									Senha
-								</label>
-								<input type="password" th:id="senha" th:name="senha" class="form-control"
-									th:field="*{senha}" />
+								<label for="usuario" class="form-label"> Usuário </label> 
+								<select id="usuario" name="usuario.id"class="form-control">
+									<option value="DEFAULT">Escolha um Usuário</option>
+									<option th:each="u : ${listaUsuarios}" th:value="${u.id}" th:text="${u.nome}"></option>
+								</select>
 							</div>
-
-							<button type="submit" class="btn btn-primary">
-								Enviar
-							</button>
-							<a href="./usuarios" class="btn btn-danger" style="margin-left: 10px">
-								Cancelar
-							</a>
+							
+							<button type="submit" class="btn btn-primary">Enviar</button>
+							<a href="./reserva" class="btn btn-danger" style="margin-left: 10px"> Cancelar </a>
 						</form>
 					</div>
 
 				</div>
 			</div>
 		</div>
-		</main>
-		<br><br>
+
+	</main>
+          	<br><br>
 	         <footer>
             <div class="container">
               <div class="row">
