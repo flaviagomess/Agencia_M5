@@ -31,11 +31,12 @@ public class ReservaController {
 
 		modelAndView.addObject("listaUsuarios", usuarioRepository.findAll());
 		modelAndView.addObject("listaDestinos", destinoRepository.findAll());
-		modelAndView.addObject("reserva", reservaRepository.findAll());
+		modelAndView.addObject("Reserva", reservaRepository.findAll());
 		modelAndView.addObject("reserva", new Reserva());
 
 		return modelAndView;
 	}
+
 
 	@PostMapping("/cadastrar")
 	public String cadastrar(@ModelAttribute("reserva") Reserva reserva) {
