@@ -1,7 +1,10 @@
 package Mvc_agencia.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import Mvc_agencia.model.Usuarios;
 
 @Controller
 public class SiteController {
@@ -23,8 +26,8 @@ public class SiteController {
     }
 
     @GetMapping("/reservar")
-    public String cadastro () {
-        return "reserva";
+    public String reservar () {
+        return "reservar";
     }
 
     @GetMapping("/contato")
@@ -36,6 +39,10 @@ public class SiteController {
     public String mensagemEnviada () {
         return "mensagemEnviada";
     }
-
-
+    @GetMapping("/formUsuario")
+    public String formUsuario(Model model) {
+        model.addAttribute("usuario", new Usuarios());
+        return "formUsuario";
+    }
+    
 }
